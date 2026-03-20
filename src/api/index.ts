@@ -93,3 +93,15 @@ export const agentHeartbeat = (agentId: string) =>
 
 // User room
 export const fetchUserRoom = () => get<{ room_id: string }>('/api/v1/users/me/room')
+
+// Additional APIs
+export const fetchRooms = () => get<{ id: string; name: string }[]>('/api/v1/rooms')
+export const fetchAllTasks = (params: { status?: string; limit?: number } = {}) => {
+  const q: string[] = []
+  if (params.status) q.push(`status=${params.status}`)
+  if (params.limit) q.push(`limit=${params.limit}`)
+  return get<Task[]>(`/api/v1/tasks${q.length ? '?' + q.join('&') : ''}`)
+}
+export const fetchTask = (id: string) => get<Task>(`/api/v1/tasks/${id}`)
+export const approveTask = (id: string) => patch<Task>(`/api/v1/tasks/${id}/approve`, {})
+export const rejectTask = (id: string, review_note: string) => patch<Task>(`/api/v1/tasks/${id}/reject`, { review_note })

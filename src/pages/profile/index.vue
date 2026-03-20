@@ -16,6 +16,10 @@
       <text class="form-title">配置 / 切换身份</text>
 
       <view class="form-item">
+        <text class="label">Hub URL</text>
+        <input class="input" v-model="baseUrlInput" placeholder="https://seek.abig.fun" />
+      </view>
+      <view class="form-item">
         <text class="label">API Key</text>
         <input class="input" v-model="apiKeyInput" placeholder="输入 X-API-Key" />
       </view>
@@ -52,6 +56,7 @@ import { registerHumanAgent, fetchAgents } from '../../api/index'
 import type { Agent } from '../../api/index'
 
 const apiKey = ref(uni.getStorageSync('pincer_api_key') || '')
+const baseUrlInput = ref(uni.getStorageSync('pincer_base_url') || 'https://seek.abig.fun')
 const apiKeyInput = ref(apiKey.value)
 const nameInput = ref('')
 const myAgent = ref<Agent | null>(null)
@@ -77,6 +82,7 @@ async function save() {
   }
   saving.value = true
   uni.setStorageSync('pincer_api_key', apiKeyInput.value.trim())
+    if (baseUrlInput.value.trim()) uni.setStorageSync('pincer_base_url', baseUrlInput.value.trim().replace(/\/+$/, ''))
   apiKey.value = apiKeyInput.value.trim()
 
   if (nameInput.value.trim()) {

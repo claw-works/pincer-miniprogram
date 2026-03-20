@@ -36,6 +36,7 @@ import { fetchTasks, fetchProjects, fetchAgents } from '../../api/index'
 import type { Task, Project, Agent } from '../../api/index'
 
 const tasks = ref<Task[]>([])
+const isHuman = ref(false)
 const projects = ref<Project[]>([])
 const agents = ref<Agent[]>([])
 const currentProjectIdx = ref(0)
@@ -89,7 +90,42 @@ async function loadTasks() {
 }
 
 function openTask(t: Task) {
-  uni.showModal({ title: t.title, content: t.description || '无描述', showCancel: false })
+  // Navigate to task detail (could show modal with approve/reject for review status)
+  if (t.status === 'review' && isHuman.value) {
+    uni.showModal({
+      title: t.title,
+      content: (t.description || '').slice(0, 200) || '无描述',
+      confirmText: '✅ Approve',
+      cancelText: '❌ 打回',
+      success: async (res) => {
+        if (res.confirm) {
+          try {
+            const { approveTask } = await import('../../api/index')
+            await approveTask(t.id)
+            uni.showToast({ title: 'Approved ✅', icon: 'success' })
+            loadData()
+          } catch (e: any) { uni.showToast({ title: e.message, icon: 'error' }) }
+        } else if (res.cancel) {
+          uni.showModal({
+            title: '打回原因',
+            editable: true,
+            success: async (r2) => {
+              if (r2.confirm && r2.content) {
+                try {
+                  const { rejectTask } = await import('../../api/index')
+                  await rejectTask(t.id, r2.content)
+                  uni.showToast({ title: '已打回', icon: 'success' })
+                  loadData()
+                } catch (e: any) { uni.showToast({ title: e.message, icon: 'error' }) }
+              }
+            }
+          })
+        }
+      }
+    })
+  } else {
+    uni.showModal({ title: t.title, content: (t.description || '无描述').slice(0, 500), showCancel: false })
+  }
 }
 
 function agentName(id: string) {

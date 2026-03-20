@@ -1,10 +1,14 @@
 // src/utils/request.ts
 // HTTP request wrapper for uni-app (replaces axios)
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'https://seek.abig.fun'
+const DEFAULT_BASE = import.meta.env.VITE_API_BASE || 'https://seek.abig.fun'
 
 function getApiKey(): string {
   return uni.getStorageSync('pincer_api_key') || ''
+}
+
+function getApiBase(): string {
+  return (uni.getStorageSync('pincer_base_url') || DEFAULT_BASE).replace(/\/+$/, '')
 }
 
 export function request<T = any>(
@@ -14,7 +18,7 @@ export function request<T = any>(
 ): Promise<T> {
   return new Promise((resolve, reject) => {
     uni.request({
-      url: `${API_BASE}${path}`,
+      url: `${getApiBase()}${path}`,
       method,
       data,
       header: {
