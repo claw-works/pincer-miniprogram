@@ -1,0 +1,92 @@
+{
+  "pages": [
+    {
+      "path": "pages/room/index",
+      "style": {
+        "navigationBarTitleText": "议事厅",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/projects/index",
+      "style": {
+        "navigationBarTitleText": "项目"
+      }
+    },
+    {
+      "path": "pages/projects/detail",
+      "style": {
+        "navigationBarTitleText": "项目详情"
+      }
+    },
+    {
+      "path": "pages/dm/index",
+      "style": {
+        "navigationBarTitleText": "伙伴"
+      }
+    },
+    {
+      "path": "pages/dm/chat",
+      "style": {
+        "navigationBarTitleText": "私聊"
+      }
+    },
+    {
+      "path": "pages/tasks/index",
+      "style": {
+        "navigationBarTitleText": "任务看板"
+      }
+    },
+    {
+      "path": "pages/profile/index",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    }
+  ],
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#6366f1",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/room/index",
+        "text": "议事厅",
+        "iconPath": "static/icons/room.png",
+        "selectedIconPath": "static/icons/room-active.png"
+      },
+      {
+        "pagePath": "pages/projects/index",
+        "text": "项目",
+        "iconPath": "static/icons/project.png",
+        "selectedIconPath": "static/icons/project-active.png"
+      },
+      {
+        "pagePath": "pages/dm/index",
+        "text": "伙伴",
+        "iconPath": "static/icons/dm.png",
+        "selectedIconPath": "static/icons/dm-active.png"
+      },
+      {
+        "pagePath": "pages/tasks/index",
+        "text": "任务",
+        "iconPath": "static/icons/task.png",
+        "selectedIconPath": "static/icons/task-active.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "static/icons/profile.png",
+        "selectedIconPath": "static/icons/profile-active.png"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "Pincer",
+    "navigationBarBackgroundColor": "#6366f1",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  }
+}
