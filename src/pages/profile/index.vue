@@ -82,7 +82,7 @@ async function save() {
   }
   saving.value = true
   uni.setStorageSync('pincer_api_key', apiKeyInput.value.trim())
-    if (baseUrlInput.value.trim()) uni.setStorageSync('pincer_base_url', baseUrlInput.value.trim().replace(/\/+$/, ''))
+  if (baseUrlInput.value.trim()) uni.setStorageSync('pincer_base_url', baseUrlInput.value.trim().replace(/\/+$/, ''))
   apiKey.value = apiKeyInput.value.trim()
 
   if (nameInput.value.trim()) {

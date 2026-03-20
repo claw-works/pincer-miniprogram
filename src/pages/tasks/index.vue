@@ -71,10 +71,16 @@ const columns = computed(() =>
 const agentMap = computed(() => Object.fromEntries(agents.value.map(a => [a.id, a])))
 
 onMounted(async () => {
+  // Check if current user is human (for approve/reject UI)
+  const myId = uni.getStorageSync('pincer_agent_id') || ''
   const [t, p, a] = await Promise.allSettled([fetchTasks(), fetchProjects(), fetchAgents()])
   if (t.status === 'fulfilled') tasks.value = t.value || []
   if (p.status === 'fulfilled') projects.value = p.value || []
-  if (a.status === 'fulfilled') agents.value = a.value || []
+  if (a.status === 'fulfilled') {
+    agents.value = a.value || []
+    const me = agents.value.find(ag => ag.id === myId)
+    isHuman.value = me?.type === 'human'
+  }
 })
 
 function onProjectChange(e: any) {
@@ -87,6 +93,10 @@ async function loadTasks() {
   try {
     tasks.value = await fetchTasks(pid || undefined)
   } catch {}
+}
+
+async function loadData() {
+  await loadTasks()
 }
 
 function openTask(t: Task) {
